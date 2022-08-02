@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-1
+  annotations:
+    openservicemesh.io/sidecar-injection: enabled
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jmeter-1
+      app.kubernetes.io/name: jmeter-1
+      app.kubernetes.io/component: load-gen
+  template:
+    metadata:
+      labels:
+        monitoring: enabled
+        app: jmeter-1
+        app.kubernetes.io/name: jmeter-1
+        app.kubernetes.io/component: load-gen
+      annotations:
+        openservicemesh.io/inbound-port-exclusion-list: "8085"
+        openservicemesh.io/outbound-port-exclusion-list: "8085"
+    spec:
+      containers:
+        - name: jmeter
+          image: justb4/jmeter
+          command: [ "/bin/bash", "-c", "--" ]
+          #args: [ "while true; do sleep 30; done;" ]
+          args:
+            - >
+              java -jar bin/ApacheJMeter.jar -t profile/teastore_browse_nogui.jmx -Jhostname teastore-webui -Jport 8080 -JnumUser $NUM_USERS -JrampUp 1 -l  mylogfile.log -n
+          env:
+            - name: NUM_USERS
+              value: "1"
+          volumeMounts:
+          - name: jmeter-profile
+            mountPath: /opt/apache-jmeter-5.4.3/profile
+          ports:
+            - containerPort: 50000
+            - containerPort: 60000
+            - containerPort: 1099
+      volumes:
+        - name: jmeter-profile
+          configMap:
+            name: teastore-jmeter-browse
+
