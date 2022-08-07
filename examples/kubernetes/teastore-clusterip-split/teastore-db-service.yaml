@@ -9,6 +9,7 @@ spec:
   ports:
     - port: 3306
       protocol: TCP
-      appProtocol: TCP
+      # appProtocol: TCP
+      name: tcp-teastore-db
   selector:
     run: teastore-db
