@@ -13,6 +13,7 @@ spec:
         app: teastore
         run: teastore-persistence
     spec:
+      terminationGracePeriodSeconds: 0
       containers:
         - name: teastore-persistence
           image: descartesresearch/teastore-persistence
@@ -29,5 +30,5 @@ spec:
               value: "3306"
           resources:
             limits:
-              memory: 500Mi
-              cpu: 100m
+              memory: 1000Mi
+              cpu: 500m

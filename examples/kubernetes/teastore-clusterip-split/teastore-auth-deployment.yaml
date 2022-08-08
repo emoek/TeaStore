@@ -13,6 +13,7 @@ spec:
         app: teastore
         run: teastore-auth
     spec:
+      terminationGracePeriodSeconds: 0
       containers:
         - name: teastore-auth
           image: descartesresearch/teastore-auth
@@ -25,5 +26,5 @@ spec:
               value: "teastore-registry"
           resources:
             limits:
-              memory: 500Mi
-              cpu: 100m
+              memory: 1000Mi
+              cpu: 500m
