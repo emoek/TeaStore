@@ -27,3 +27,7 @@ spec:
               value: "teastore-db"
             - name: DB_PORT
               value: "3306"
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: 100m

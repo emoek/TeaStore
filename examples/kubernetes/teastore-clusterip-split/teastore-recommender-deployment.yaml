@@ -23,3 +23,7 @@ spec:
               value: "teastore-recommender"
             - name: REGISTRY_HOST
               value: "teastore-registry"
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: 100m
