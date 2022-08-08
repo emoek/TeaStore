@@ -50,5 +50,6 @@ kubectl create configmap teastore-deployment --from-file=../kubernetes/teastore-
 
 ```sh
 kubectl create configmap teastore-jmeter-browse --from-file=../jmeter/teastore_browse_nogui.jmx
+kubectl create configmap teastore-jmeter-deployment --from-file=jmeter.yaml
 ```
 
