@@ -22,6 +22,15 @@ spec:
         openservicemesh.io/inbound-port-exclusion-list: "8085"
         openservicemesh.io/outbound-port-exclusion-list: "8085"
     spec:
+      # initContainers:
+      #     - name: init
+      #       image: curlimages/curl
+      #       command:
+      #         - sh
+      #         - "-c"
+      #         - |
+      #           while [ "$(curl -o /dev/null http://teastore-webui:8080/tools.descartes.teastore.webui/status | grep -c OK)"  != "5" ]; do sleep 2; done
+      #           sleep 30
       containers:
         - name: jmeter
           image: justb4/jmeter
@@ -29,6 +38,8 @@ spec:
           #args: [ "while true; do sleep 30; done;" ]
           args:
             - >
+              while [ "$(curl http://teastore-webui:8080/tools.descartes.teastore.webui/status | grep -c OK)"  != "5" ]; do sleep 2; done;
+              echo "done";
               java -jar bin/ApacheJMeter.jar -t profile/teastore_browse_nogui.jmx -Jhostname teastore-webui -Jport 8080 -JnumUser $NUM_USERS -JrampUp 1 -l  mylogfile.log -n
           env:
             - name: NUM_USERS
