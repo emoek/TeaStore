@@ -1,0 +1,49 @@
+apiVersion: theodolite.rocks/v1beta1
+kind: benchmark
+metadata:
+  name: teastore
+spec:
+  waitForResourcesEnabled: true
+  sut:
+    resources:
+      - configMap:
+          name: teastore-deployment
+  loadGenerator:
+    resources:
+      - configMap:
+          name: teastore-jmeter-deployment
+  resourceTypes:
+    - typeName: "Instances"
+      patchers:
+        - type: "ReplicaPatcher"
+          resource: "teastore-auth-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-image-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-persistence-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-recommender-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-registry-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-webui-deployment.yaml"
+  loadTypes:
+    - typeName: NumUsers
+      patchers:
+        - type: "EnvVarPatcher"
+          resource: "jmeter.yaml"
+          properties:
+            container: jmeter
+            variableName: NUM_USERS
+  slos:
+    - sloType: "generic"
+      name: "generic"
+      prometheusUrl: "http://prometheus-operated:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:8082"
+        promQLQuery: "histogram_quantile(0.95,sum(irate(osm_request_duration_ms_bucket[1m])) by (le, destination_name))"
+        warmup: 120 #in seconds
+        queryAggregation: max
+        repetitionAggregation: median
+        operator: gte
