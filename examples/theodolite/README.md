@@ -53,3 +53,29 @@ kubectl create configmap teastore-jmeter-browse --from-file=../jmeter/teastore_b
 kubectl create configmap teastore-jmeter-deployment --from-file=jmeter.yaml
 ```
 
+## Setup Benchmark
+
+```sh
+kubectl apply -f benchmark.yaml
+```
+
+## Start Benchmark Execution
+
+```sh
+kubectl apply -f execution-users.yaml
+```
+
+## Uninstall Everything
+
+Uninstall OSM:
+
+```sh
+helm uninstall osm --namespace osm-system
+kubectl delete ns osm-system
+```
+
+Uninstall Theodolite:
+
+```sh
+helm uninstall theodolite
+```
