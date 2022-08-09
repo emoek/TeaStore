@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: teastore-persistence
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: teastore
@@ -16,7 +17,7 @@ spec:
       terminationGracePeriodSeconds: 0
       containers:
         - name: teastore-persistence
-          image: descartesresearch/teastore-persistence
+          image: descartesresearch/teastore-persistence:1.4.1
           ports:
             - containerPort: 8080
           env:
@@ -28,6 +29,16 @@ spec:
               value: "teastore-db"
             - name: DB_PORT
               value: "3306"
+          readinessProbe:
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+            httpGet:
+              path: "/tools.descartes.teastore.persistence/rest/generatedb/finished"
+              port: 8080
+              scheme: HTTP
           resources:
             limits:
               memory: 1000Mi

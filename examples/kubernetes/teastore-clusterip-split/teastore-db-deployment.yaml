@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: teastore-db
-          image: descartesresearch/teastore-db
+          image: descartesresearch/teastore-db:1.4.1
           ports:
             - containerPort: 3306

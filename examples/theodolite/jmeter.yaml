@@ -33,7 +33,7 @@ spec:
       #           sleep 30
       containers:
         - name: jmeter
-          image: justb4/jmeter
+          image: justb4/jmeter:5.4
           command: [ "/bin/bash", "-c", "--" ]
           #args: [ "while true; do sleep 30; done;" ]
           args:
