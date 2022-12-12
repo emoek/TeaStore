@@ -23,10 +23,94 @@ spec:
           resource: "teastore-persistence-deployment.yaml"
         - type: "ReplicaPatcher"
           resource: "teastore-recommender-deployment.yaml"
-        - type: "ReplicaPatcher"
-          resource: "teastore-registry-deployment.yaml"
+        # - type: "ReplicaPatcher"
+        #   resource: "teastore-registry-deployment.yaml"
         - type: "ReplicaPatcher"
           resource: "teastore-webui-deployment.yaml"
+    - typeName: "InstancesWebUI"
+      patchers:
+        - type: "ReplicaPatcher"
+          resource: "teastore-webui-deployment.yaml"
+    - typeName: "PodResources"
+      patchers:
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-auth-deployment.yaml"
+          properties:
+            container: "teastore-auth"
+            limitedResource: cpu
+            format: m
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-auth-deployment.yaml"
+          properties:
+            container: "teastore-auth"
+            limitedResource: memory
+            format: Mi
+            factor: 2
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-auth-deployment.yaml"
+          properties:
+            container: "teastore-auth"
+            limitedResource: cpu
+            format: m
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-auth-deployment.yaml"
+          properties:
+            container: "teastore-auth"
+            limitedResource: memory
+            format: Mi
+            factor: 2
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-image-deployment.yaml"
+          properties:
+            container: "teastore-image"
+            limitedResource: cpu
+            format: m
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-image-deployment.yaml"
+          properties:
+            container: "teastore-image"
+            limitedResource: memory
+            format: Mi
+            factor: 2
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-recommender-deployment.yaml"
+          properties:
+            container: "teastore-recommender"
+            limitedResource: cpu
+            format: m
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-recommender-deployment.yaml"
+          properties:
+            container: "teastore-recommender"
+            limitedResource: memory
+            format: Mi
+            factor: 2
+        # - type: "ResourceLimitPatcher"
+        #   resource: "teastore-registry-deployment.yaml"
+        #   properties:
+        #     container: "teastore-registry"
+        #     limitedResource: cpu
+        #     format: m
+        # - type: "ResourceLimitPatcher"
+        #   resource: "teastore-registry-deployment.yaml"
+        #   properties:
+        #     container: "teastore-registry"
+        #     limitedResource: memory
+        #     format: Mi
+        #     factor: 2
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-webui-deployment.yaml"
+          properties:
+            container: "teastore-webui"
+            limitedResource: cpu
+            format: m
+        - type: "ResourceLimitPatcher"
+          resource: "teastore-webui-deployment.yaml"
+          properties:
+            container: "teastore-webui"
+            limitedResource: memory
+            format: Mi
+            factor: 2
   loadTypes:
     - typeName: NumUsers
       patchers:
@@ -37,13 +121,14 @@ spec:
             variableName: NUM_USERS
   slos:
     - sloType: "generic"
-      name: "persistenceLatency"
+      name: "uiLatency"
       prometheusUrl: "http://prometheus-operated:9090"
       offset: 0
       properties:
         externalSloUrl: "http://localhost:8082"
-        promQLQuery: "histogram_quantile(0.95,sum(irate(osm_request_duration_ms_bucket{destination_name='teastore_persistence'}[1m])) by (le, destination_name))"
-        warmup: 120 #in seconds
+        promQLQuery: "histogram_quantile(0.95,sum(irate(osm_request_duration_ms_bucket{destination_name='teastore_webui'}[1m])) by (le, destination_name))"
+        warmup: 600 #in seconds
         queryAggregation: max
         repetitionAggregation: median
-        operator: gte
+        operator: lte
+        threshold: 200

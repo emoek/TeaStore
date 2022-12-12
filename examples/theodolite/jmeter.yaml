@@ -1,58 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jmeter-1
+  name: jmeter
   annotations:
     openservicemesh.io/sidecar-injection: enabled
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jmeter-1
-      app.kubernetes.io/name: jmeter-1
+      app: teastore
+      app2: jmeter
+      app.kubernetes.io/name: jmeter
       app.kubernetes.io/component: load-gen
   template:
     metadata:
       labels:
         monitoring: enabled
-        app: jmeter-1
-        app.kubernetes.io/name: jmeter-1
+        app: teastore
+        app2: jmeter
+        app.kubernetes.io/name: jmeter
         app.kubernetes.io/component: load-gen
-      annotations:
-        openservicemesh.io/inbound-port-exclusion-list: "8085"
-        openservicemesh.io/outbound-port-exclusion-list: "8085"
     spec:
-      # initContainers:
-      #     - name: init
-      #       image: curlimages/curl
-      #       command:
-      #         - sh
-      #         - "-c"
-      #         - |
-      #           while [ "$(curl -o /dev/null http://teastore-webui:8080/tools.descartes.teastore.webui/status | grep -c OK)"  != "5" ]; do sleep 2; done
-      #           sleep 30
       containers:
         - name: jmeter
           image: justb4/jmeter:5.4
           command: [ "/bin/bash", "-c", "--" ]
-          #args: [ "while true; do sleep 30; done;" ]
           args:
             - >
-              while [ "$(curl http://teastore-webui:8080/tools.descartes.teastore.webui/status | grep -c OK)"  != "5" ]; do sleep 2; done;
-              echo "done";
-              java -jar bin/ApacheJMeter.jar -t profile/teastore_browse_nogui.jmx -Jhostname teastore-webui -Jport 8080 -JnumUser $NUM_USERS -JrampUp 1 -l  mylogfile.log -n
+              java -jar bin/ApacheJMeter.jar \
+              -t profile/teastore_browse_nogui.jmx \
+              -Jhostname teastore-webui \
+              -Jport 8080 -JnumUser $NUM_USERS \
+              -JrampUp 1 -l mylogfile.log -n
           env:
             - name: NUM_USERS
               value: "1"
           volumeMounts:
           - name: jmeter-profile
             mountPath: /opt/apache-jmeter-5.4.3/profile
-          ports:
-            - containerPort: 50000
-            - containerPort: 60000
-            - containerPort: 1099
       volumes:
         - name: jmeter-profile
           configMap:
             name: teastore-jmeter-browse
-
