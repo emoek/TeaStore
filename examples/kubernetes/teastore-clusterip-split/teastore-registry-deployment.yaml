@@ -16,6 +16,6 @@ spec:
       terminationGracePeriodSeconds: 0
       containers:
         - name: teastore-registry
-          image: descartesresearch/teastore-registry:1.4.1
+          image: descartesresearch/teastore-registry:1.4.2
           ports:
             - containerPort: 8080
