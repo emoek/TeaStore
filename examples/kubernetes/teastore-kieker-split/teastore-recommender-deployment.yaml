@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-recommender
+spec:
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-recommender
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-recommender
+    spec:
+      containers:
+        - name: teastore-recommender
+          image: descartesresearch/teastore-recommender
+          ports:
+            - containerPort: 8080
+          env:
+            - name: USE_POD_IP
+              value: "true"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+            - name: RABBITMQ_HOST
+              value: "teastore-kieker-rabbitmq"

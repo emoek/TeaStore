@@ -1,0 +1,61 @@
+apiVersion: theodolite.rocks/v1beta1
+kind: benchmark
+metadata:
+  name: teastorev12
+spec:
+  waitForResourcesEnabled: true
+  sut:
+    resources:
+      - configMap:
+          name: teastore-kieker-deployment
+  loadGenerator:
+    resources:
+      - configMap:
+          name: teastore-jmeter-deployment
+  resourceTypes:
+    - typeName: "Instances"
+      patchers:
+        - type: "ReplicaPatcher"
+          resource: "teastore-auth-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-image-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-persistence-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-recommender-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-webui-deployment.yaml"
+  loadTypes:
+    - typeName: NumUsers
+      patchers:
+        - type: "EnvVarPatcher"
+          resource: "jmeter.yaml"
+          properties:
+            container: jmeter
+            variableName: NUM_USERS
+  slos:
+    - sloType: "generic"
+      name: "collect-uiCPU-base+idle+load"
+      prometheusUrl: "http://prometheus-operated:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:8082"
+        promQLQuery: "rate(container_cpu_usage_seconds_total[1m])"
+        warmup: 0 #in seconds
+        queryAggregation: max
+        repetitionAggregation: median
+        operator: gte
+        threshold: 0
+    - sloType: "generic"
+      name: "uiCPU"
+      prometheusUrl: "http://prometheus-operated:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:8082"
+        promQLQuery: "rate(container_cpu_usage_seconds_total[1m])"
+        warmup: 0 #in seconds
+        queryAggregation: max
+        repetitionAggregation: median
+        operator: gte
+        threshold: 0
+
