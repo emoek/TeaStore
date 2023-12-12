@@ -1,0 +1,28 @@
+apiVersion: theodolite.rocks/v1beta1
+
+kind: execution
+metadata:
+  name: teastorev19-example
+spec:
+  benchmark: teastorev19
+  load:
+    loadType: "NumUsers"
+    loadValues: [2,3]
+  resources:
+    resourceType: "Instances"
+    resourceValues: [1]
+  slos:
+    - name: "uiCPU"
+    - name: "uiCPU"
+  execution:
+    strategy:
+      name: "RestrictionSearch"
+      restrictions:
+        - "LowerBound"
+      searchStrategy: "LinearSearch"
+    duration: 60  # in seconds
+    loadGenerationDelay: 15  
+    repetitions: 1
+    stages: true
+  configOverrides: []
+
