@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-auth
+spec:
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-auth
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-auth
+    spec:
+      containers:
+        - name: teastore-auth
+          image: descartesresearch/teastore-auth
+          ports:
+            - containerPort: 8080
+          env:
+            - name: USE_POD_IP
+              value: "true"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+

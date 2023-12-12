@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teastore-zwebui
+spec:
+  selector:
+    matchLabels:
+      app: teastore
+      run: teastore-zwebui
+  template:
+    metadata:
+      labels:
+        app: teastore
+        run: teastore-zwebui
+    spec:
+      containers:
+        - name: teastore-zwebui
+          image: descartesresearch/teastore-webui
+          ports:
+            - containerPort: 8080
+          env:
+            - name: USE_POD_IP
+              value: "true"
+            - name: REGISTRY_HOST
+              value: "teastore-registry"
+            - name: RABBITMQ_HOST
+              value: "teastore-kieker-rabbitmq"
