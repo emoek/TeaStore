@@ -1,0 +1,14 @@
+FROM justb4/jmeter:5.4
+
+# Add commands to install additional plugins
+#RUN ${JMETER_HOME}/bin/PluginsManagerCMD.sh install [plugin-name]
+
+# Copy your test plan and any other necessary files
+COPY ./teastore_browse_rps.jmx /jmeter/
+
+# Set the working directory
+WORKDIR /jmeter
+
+# Set the default command to run your test plan
+ENTRYPOINT ["jmeter", "-n", "-t", "teastore_browse_rps.jmx", "-l", "testresults.jtl"]
+

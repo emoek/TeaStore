@@ -2,9 +2,9 @@ apiVersion: theodolite.rocks/v1beta1
 
 kind: execution
 metadata:
-  name: teastorev19-example
+  name: teastorev20-example
 spec:
-  benchmark: teastorev19
+  benchmark: teastorev20
   load:
     loadType: "NumUsers"
     loadValues: [2,3]

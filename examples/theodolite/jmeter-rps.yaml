@@ -23,24 +23,22 @@ spec:
     spec:
       containers:
         - name: jmeter
-          image: justb4/jmeter:5.4
+          image: justb4/jmeter
           command:
             - "/bin/bash"
             - "-c"
+            - "-n"  
             - |
               java -jar bin/ApacheJMeter.jar \
-              -t profile/teastore_browse_noloopv2.jmx \
+              -t profile/teastore_browse_rps.jmx \
               -Jhostname teastore-webui \
-              -Jport 8080 -JnumUser $NUM_USERS \
-              -JrampUp 1 -l mylogfile.log -n
-          env:
-            - name: NUM_USERS
-              value: "1"
+              -Jport 8080;
+              sleep 3600  
           volumeMounts:
             - name: jmeter-profile
-              mountPath: /opt/apache-jmeter-5.4.3/profile
+              mountPath: /opt/apache-jmeter-5.5/profile
       volumes:
         - name: jmeter-profile
           configMap:
-            name: teastore-jmeter-browse
+            name: teastore-jmeter-browse-rps
 
