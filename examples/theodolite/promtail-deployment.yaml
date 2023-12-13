@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promtail
+  labels:
+    app: promtail
+spec:
+  replicas: 1  # Adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: promtail
+  template:
+    metadata:
+      labels:
+        app: promtail
+    spec:
+      containers:
+      - name: promtail
+        image: grafana/promtail:latest  # Use the desired Promtail version
+        args:
+          - "-config.file=/etc/promtail/promtail-config.yaml"
+        volumeMounts:
+          - name: config
+            mountPath: /etc/promtail
+
+      volumes:
+        - name: config
+          configMap:
+            name: promtail-config  # Ensure this is the name of your ConfigMap
+
