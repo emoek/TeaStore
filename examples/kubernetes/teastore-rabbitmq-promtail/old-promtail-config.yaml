@@ -15,7 +15,7 @@ scrape_configs:
           - localhost
         labels:
           job: rabbitmq-logs
-          __path__: /symlogs/sym-kieker-output.dat
+          __path__: /symlogs/kieker*
 
     pipeline_stages:
     - regex:
