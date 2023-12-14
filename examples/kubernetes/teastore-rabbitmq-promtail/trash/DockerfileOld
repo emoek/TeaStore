@@ -4,7 +4,9 @@ MAINTAINER Chair of Software Engineering <se2-it@informatik.uni-wuerzburg.de>
 COPY apache-tomcat-8.5.24.zip /apache.zip
 COPY rabbitmq.config /etc/rabbitmq/
 COPY custom_definitions.json /etc/rabbitmq/
+COPY entrypoint.sh /entrypoint.sh
 
+RUN chmod +x /entrypoint.sh
 RUN apt-get update
 RUN apt-get install unzip
 RUN unzip /apache.zip
@@ -16,4 +18,4 @@ COPY target/*.war /apache-tomcat-8.5.24/webapps/logs.war
 EXPOSE 8080
 
 #Login for rabbitmq webui is admin:nimda
-CMD  /apache-tomcat-8.5.24/bin/startup.sh && echo '<% response.sendRedirect("/logs/index"); %>' > /apache-tomcat-8.5.24/webapps/ROOT/index.jsp && rabbitmq-server
+CMD  /apache-tomcat-8.5.24/bin/startup.sh && /entrypoint.sh && echo 'SYMLINK CREATED' && echo '<% response.sendRedirect("/logs/index"); %>' > /apache-tomcat-8.5.24/webapps/ROOT/index.jsp && rabbitmq-server 

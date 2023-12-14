@@ -1,0 +1,8 @@
+FROM descartesresearch/teastore-kieker-rabbitmq
+
+COPY create-symlink.sh /create-symlink.sh
+
+RUN chmod +x /create-symlink.sh 
+
+# Set your entrypoint script as the entrypoint for the container
+#CMD ["/create-symlink.sh"]

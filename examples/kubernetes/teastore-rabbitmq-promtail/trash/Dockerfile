@@ -5,6 +5,9 @@ COPY apache-tomcat-8.5.24.zip /apache.zip
 COPY rabbitmq.config /etc/rabbitmq/
 COPY custom_definitions.json /etc/rabbitmq/
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    coreutils \
+    && rm -rf /var/lib/apt/lists/*
 RUN apt-get update
 RUN apt-get install unzip
 RUN unzip /apache.zip
@@ -13,7 +16,15 @@ RUN apt-get -y install default-jre-headless
 
 COPY target/*.war /apache-tomcat-8.5.24/webapps/logs.war
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 8080
 
+# Create a script that runs all the desired commands
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 #Login for rabbitmq webui is admin:nimda
-CMD  /apache-tomcat-8.5.24/bin/startup.sh && echo '<% response.sendRedirect("/logs/index"); %>' > /apache-tomcat-8.5.24/webapps/ROOT/index.jsp && rabbitmq-server
+CMD /start.sh
+

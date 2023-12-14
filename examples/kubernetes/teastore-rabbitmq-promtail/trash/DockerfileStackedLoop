@@ -15,5 +15,12 @@ COPY target/*.war /apache-tomcat-8.5.24/webapps/logs.war
 
 EXPOSE 8080
 
-#Login for rabbitmq webui is admin:nimda
-CMD  /apache-tomcat-8.5.24/bin/startup.sh && echo '<% response.sendRedirect("/logs/index"); %>' > /apache-tomcat-8.5.24/webapps/ROOT/index.jsp && rabbitmq-server
+# Define the ENTRYPOINT
+ENTRYPOINT [ \
+    "/bin/sh", "-c", \
+    "/apache-tomcat-8.5.24/bin/startup.sh && echo '<% response.sendRedirect(\"/logs/index\"); %>' > /apache-tomcat-8.5.24/webapps/ROOT/index.jsp && rabbitmq-server" \
+]
+
+# Define default CMD
+#CMD sh -c 'while [ ! -f /apache-tomcat-8.5.24/webapps/logs/kieker-* ]; do sleep 1; done; tail -f /apache-tomcat-8.5.24/webapps/logs/kieker-* > /var/log/custom.log'
+

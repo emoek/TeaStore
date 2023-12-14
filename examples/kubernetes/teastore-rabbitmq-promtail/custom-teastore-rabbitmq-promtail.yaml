@@ -20,23 +20,16 @@ spec:
         - containerPort: 5672
         - containerPort: 8080
         - containerPort: 15672
-        volumeMounts:
-        - name: log-volume
-          mountPath: /apache-tomcat-8.5.24/webapps/logs
 
       - name: promtail
         image: grafana/promtail:latest
         args:
           - "-config.file=/etc/promtail/promtail-config.yaml"
         volumeMounts:
-        - name: log-volume
-          mountPath: /apache-tomcat-8.5.24/webapps/logs
         - name: promtail-config
           mountPath: /etc/promtail
 
       volumes:
-      - name: log-volume
-        emptyDir: {}
       - name: promtail-config
         configMap:
           name: promtail-config
