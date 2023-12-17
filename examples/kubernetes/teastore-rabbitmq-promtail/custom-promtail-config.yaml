@@ -5,24 +5,19 @@ server:
 positions:
   filename: /tmp/positions.yaml
 
-clients:
-  - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: kubernetes-services
-    kubernetes_sd_configs:
-      - role: service
-
-    relabel_configs:
-    - source_labels: [__meta_kubernetes_service_label_run]
-      action: keep
-      regex: 'teastore-kieker-rabbitmq'  # Replace with your pod label
+  - job_name: rabbitmq-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: rabbitmq-logs
+          __path__: /apache-tomcat-8.5.24/webapps/logs/kieker-*/kieker-*.dat
 
     pipeline_stages:
-    - docker: {}
-
     - regex:
-        expression: '^\$(\d+);(\d+);(.*?);(.*?);(\d+);(\d+);(\d+);(.*?);(\d+);(\d+)'
+        expression: '^\$(\d+);(\d+);(.*?);(.*?);(\d+);(\d+);(\d+);(.*?);(\d+);(\d+)$'
 
     - labels:
         flag: "$1"
@@ -36,11 +31,10 @@ scrape_configs:
         pod_id: "$9"
         some_field: "$10"
 
-    - output:
-        source: message
-
-
     - timestamp:
         source: timestamp
         format: UnixMs
+
+    - output:
+        source: message
 

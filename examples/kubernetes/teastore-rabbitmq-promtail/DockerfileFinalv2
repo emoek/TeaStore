@@ -1,0 +1,8 @@
+FROM descartesresearch/teastore-kieker-rabbitmq
+
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh 
+
+#Login for rabbitmq webui is admin:nimda
+CMD  /apache-tomcat-8.5.24/bin/startup.sh && echo '<% response.sendRedirect("/logs/index"); %>' > /apache-tomcat-8.5.24/webapps/ROOT/index.jsp && rabbitmq-server & sleep 5 && /entrypoint.sh && echo 'SYMLINK CREATED' && tail -f /dev/null
