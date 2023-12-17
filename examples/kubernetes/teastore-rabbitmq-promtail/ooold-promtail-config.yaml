@@ -18,14 +18,12 @@ scrape_configs:
           __path__: /symlogs/sym-kieker-output.dat
 
     pipeline_stages:
-    - match:
-        selector: '{job="rabbitmq-logs"}'
-        stages:
-        - regex:
-            expression: '^\$0;(?P<time>[^;]+);(?P<apicall>[^;]+);'
-        - labels:
-            time:
-            apicall:
-        - timestamp:
-            format: UnixNs
-            source: time       
+    - regex:
+        expression: '^(?P<Identifier>[^;]+);(?P<FirstNumber>[^;]+);(?P<APICall>[^;]+);(?P<SessionID>[^;]+);(?P<Number1>[^;]+);(?P<Number2>[^;]+);(?P<Number3>[^;]+);(?P<ServiceName>[^;]+);(?P<Number4>[^;]+);(?P<Number5>[^;]+)$'
+    - labels:
+        tsNs: "$1" 
+
+    - timestamp:
+        source: tsNs
+        format: tsNs
+
