@@ -29,7 +29,7 @@ spec:
             - "-c"
             - |
               java -jar bin/ApacheJMeter.jar \
-              -t profile/teastore_browse_noloopv2.jmx \
+              -t profile/teastore_browse_basicv2_nokeepalive.jmx \
               -Jhostname teastore-webui \
               -Jport 8080 -JnumUser $NUM_USERS \
               -JrampUp 1 -l mylogfile.log -n

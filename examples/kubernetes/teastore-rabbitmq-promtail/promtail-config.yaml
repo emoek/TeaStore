@@ -22,10 +22,8 @@ scrape_configs:
         selector: '{job="rabbitmq-logs"}'
         stages:
         - regex:
-            expression: '^\$0;(?P<time>[^;]+);(?P<apicall>[^;]+);'
-        - labels:
-            time:
-            apicall:
+            expression: '^\$0;(?P<time>[^;]+);'
+
         - timestamp:
             format: UnixNs
             source: time       
