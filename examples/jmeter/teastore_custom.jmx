@@ -67,6 +67,10 @@
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
         <hashTree/>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+          <stringProp name="ConstantTimer.delay">5000000</stringProp>
+        </ConstantTimer>
+        <hashTree/>
       </hashTree>
     </hashTree>
   </hashTree>
