@@ -29,13 +29,14 @@ spec:
             - "-c"
             - |
               java -jar bin/ApacheJMeter.jar \
-              -t profile/teastore_browse_basicv2_nokeepalive.jmx \
+              -t profile/teastore_browse_noloopv2.jmx \
               -Jhostname teastore-webui \
               -Jport 8080 -JnumUser $NUM_USERS \
               -JrampUp 1 -l mylogfile.log -n
+              tail -f /dev/null  
           env:
             - name: NUM_USERS
-              value: "1"
+              value: "3"
           volumeMounts:
             - name: jmeter-profile
               mountPath: /opt/apache-jmeter-5.4.3/profile

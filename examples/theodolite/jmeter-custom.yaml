@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter
+  annotations:
+    openservicemesh.io/sidecar-injection: enabled
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: teastore
+      app2: jmeter
+      app.kubernetes.io/name: jmeter
+      app.kubernetes.io/component: load-gen
+  template:
+    metadata:
+      labels:
+        monitoring: enabled
+        app: teastore
+        app2: jmeter
+        app.kubernetes.io/name: jmeter
+        app.kubernetes.io/component: load-gen
+    spec:
+      containers:
+      - name: customlg
+        image: emreoe/customlg:1.1
+        imagePullPolicy: Always  
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+

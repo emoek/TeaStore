@@ -1,0 +1,15 @@
+# Use an existing image that has curl installed
+FROM alpine
+
+# Install curl (if not already present in the image)
+RUN apk --no-cache add curl
+
+# Copy the script into the container
+COPY run_request.sh /run_request.sh
+
+# Give execute permissions to the script
+RUN chmod +x /run_request.sh
+
+# Command to run the script
+CMD ["/run_request.sh"]
+
