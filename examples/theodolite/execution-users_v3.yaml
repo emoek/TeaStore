@@ -1,0 +1,24 @@
+apiVersion: theodolite.rocks/v1beta1
+kind: execution
+metadata:
+  name: teastore-users
+spec:
+  benchmark: teastore
+  load:
+    loadType: "NumUsers"
+    loadValues: [1,10]
+  resources:
+    resourceType: "Instances"
+    resourceValues: [1]
+  slos:
+    - name: "persistenceLatency"
+      properties:
+        threshold: 0
+  execution:
+    metric: capacity
+    strategy:
+      name: "FullSearch"
+    duration: 60  # in seconds
+    repetitions: 1
+    loadGenerationDelay: 3 # in seconds
+  configOverrides: []

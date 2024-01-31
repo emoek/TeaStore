@@ -1,0 +1,25 @@
+apiVersion: theodolite.rocks/v1beta1
+
+kind: execution
+metadata:
+  name: teastorev27-example
+spec:
+  benchmark: teastorev27
+  load:
+    loadType: "NumUsers"
+    loadValues: [1]
+  resources:
+    resourceType: "Instances"
+    resourceValues: [1]
+  slos:
+    - name: "uiCPU"
+    - name: "uiCPU"
+  execution:
+    strategy:
+      name: "NoSearch"
+    duration: 60  # in seconds
+    loadGenerationDelay: 10  
+    repetitions: 2
+    experimentType: "nonisolated"
+  configOverrides: []
+
