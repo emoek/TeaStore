@@ -3,9 +3,10 @@ kind: Deployment
 metadata:
   name: teastore-kieker-rabbitmq
 spec:
-  selector:
-    matchLabels:
-      app: teastore
+  replicas: 1
+  selector:	
+    matchLabels:	
+      app: teastore	
       run: teastore-kieker-rabbitmq
   template:
     metadata:
@@ -15,25 +16,32 @@ spec:
     spec:
       containers:
       - name: teastore-kieker-rabbitmq
-        image: descartesresearch/teastore-kieker-rabbitmq
+        image: emreoe/teastore-kieker-rabbitmq:2.7
+        imagePullPolicy: Always 
         ports:
         - containerPort: 5672
         - containerPort: 8080
         - containerPort: 15672
-
+        volumeMounts:
+        - name: logs-volume
+          mountPath: /symlogs
       - name: promtail
         image: grafana/promtail:latest
+        imagePullPolicy: Always
         args:
-          - "-config.file=/etc/promtail/promtail-config.yaml"
+        - "-config.file=/etc/promtail/promtail-config.yaml"
         volumeMounts:
+        - name: logs-volume
+          mountPath: /symlogs
         - name: promtail-config
-          mountPath: /etc/promtail
-
+          mountPath: /etc/promtail     
       volumes:
+      - name: logs-volume
+        emptyDir: {} 
       - name: promtail-config
         configMap:
           name: promtail-config
-
+      nodeSelector: "nodelabel"    
 ---
 apiVersion: v1
 kind: Service
@@ -54,4 +62,3 @@ spec:
     name: rabbitmq-port
   selector:
     run: teastore-kieker-rabbitmq
-
