@@ -34,7 +34,13 @@
       </com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroup>
       <hashTree>
         <kg.apc.jmeter.timers.VariableThroughputTimer guiclass="kg.apc.jmeter.timers.VariableThroughputTimerGui" testclass="kg.apc.jmeter.timers.VariableThroughputTimer" testname="blazemeter-timer" enabled="true">
-          <collectionProp name="load_profile"/>
+          <collectionProp name="load_profile">
+            <collectionProp name="61812">
+              <stringProp name="1">1</stringProp>
+              <stringProp name="1000">1000</stringProp>
+              <stringProp name="60">60</stringProp>
+            </collectionProp>
+          </collectionProp>
         </kg.apc.jmeter.timers.VariableThroughputTimer>
         <hashTree/>
         <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
