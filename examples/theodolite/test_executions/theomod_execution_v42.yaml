@@ -1,0 +1,56 @@
+apiVersion: theodolite.rocks/v1beta1
+
+kind: execution
+metadata:
+  name: teastorev49-example
+spec:
+  benchmark: teastorev49
+  load:
+    loadType: "NumUsers"
+    loadValues: [1]
+  resources:
+    resourceType: "Instances"
+    resourceValues: [1]
+  slos:
+    - name: "uiCPU"
+    - name: "uiCPU"
+  execution:
+    strategy:
+      name: "NoSearch"
+    duration: 180  # in seconds
+    loadGenerationDelay: 10  
+    repetitions: 2
+    experimentType: "nonisolated"
+  configOverrides: 
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-auth-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "cluster-nodes-worker4"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-image-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "cluster-nodes-worker4"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-recommender-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "cluster-nodes-worker4"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-persistence-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "cluster-nodes-worker4"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-webui-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "cluster-nodes-worker4"
+
+

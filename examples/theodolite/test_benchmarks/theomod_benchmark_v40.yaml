@@ -1,0 +1,62 @@
+apiVersion: theodolite.rocks/v1beta1
+kind: benchmark
+metadata:
+  name: teastorev47
+spec:
+  waitForResourcesEnabled: true
+  sut:
+    resources:
+      - configMap:
+          name: teastore-kieker-deployment
+  loadGenerator:
+    resources:
+      - configMap:
+          name: teastore-jmeter-deployment-base
+  resourceTypes:
+    - typeName: "Instances"
+      patchers:
+        - type: "ReplicaPatcher"
+          resource: "teastore-auth-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-image-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-persistence-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-recommender-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-webui-deployment.yaml"
+  loadTypes:
+    - typeName: NumUsers
+      patchers:
+        - type: "EnvVarPatcher"
+          resource: "jmeter-base.yaml"
+          properties:
+            container: jmeter
+            variableName: num_user
+  slos:
+    - sloType: "collect"
+      name: "uiCPU"
+      prometheusUrl: "http://theodolite-loki:3100"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:8082"
+        promQLQuery: "{job=\"rabbitmq-logs\"} |= \"tools.descartes.teastore.webui\""
+        promQLStepSeconds: 1
+        stages: load  
+    - sloType: "efficiency"
+      name: "uiCPU"
+      prometheusUrl: "http://prometheus-operated:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:9092/type13/1"
+        promQLQuery: "sum(irate(container_cpu_usage_seconds_total{pod=~\".*webui.*\"}[1m]))"
+        workloadUrl: "http://theodolite-loki:3100"  
+        workloadQuery: "{job=\"rabbitmq-logs\"} |= \"tools.descartes.teastore.webui\""   
+        promQLStepSeconds: 1
+        warmup: 0 #in seconds
+        queryAggregation: mean
+        workloadAggregation: mean
+        repetitionAggregation: median
+        operator: gte
+        threshold: 1
+

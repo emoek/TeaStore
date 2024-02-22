@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: teastore
+      app2: jmeter
+      app.kubernetes.io/name: jmeter
+      app.kubernetes.io/component: load-gen
+  template:
+    metadata:
+      labels:
+        monitoring: enabled
+        app: teastore
+        app2: jmeter
+        app.kubernetes.io/name: jmeter
+        app.kubernetes.io/component: load-gen
+    spec:
+      containers:
+        - name: jmeter
+          image: justb4/jmeter:latest
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              java -jar bin/ApacheJMeter.jar \
+              -t profile/teastore_browse_base_noloop_authonly.jmx \
+              -Jhostname teastore-webui \
+              -Jport 8080 -Jnum_user $num_user \
+              -Jramp_up 1 -l mylogfile.log -n
+              tail -f /dev/null  
+          env:
+            - name: num_user
+              value: "1"
+          volumeMounts:
+            - name: jmeter-profile
+              mountPath: /opt/apache-jmeter-5.5/profile
+      volumes:
+        - name: jmeter-profile
+          configMap:
+            name: teastore-jmeter-browse-base-authonly
+

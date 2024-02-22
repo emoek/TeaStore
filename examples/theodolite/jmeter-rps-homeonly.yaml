@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: teastore
+      app2: jmeter
+      app.kubernetes.io/name: jmeter
+      app.kubernetes.io/component: load-gen
+  template:
+    metadata:
+      labels:
+        monitoring: enabled
+        app: teastore
+        app2: jmeter
+        app.kubernetes.io/name: jmeter
+        app.kubernetes.io/component: load-gen
+    spec:
+      containers:
+        - name: jmeter
+          image: emreoe/jmeter-plugin:latest
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              java -jar bin/ApacheJMeter.jar \
+              -t profile/teastore_browse_rps_homeonly_test.jmx \
+              -Jhostname teastore-webui \
+              -Jport 8080 -Jnum_user $num_user \
+              -Jduration 60 \
+              -Jramp_up 1 -l mylogfile.log -n
+              tail -f /dev/null  
+          env:
+            - name: num_user
+              value: "1"
+          volumeMounts:
+            - name: jmeter-profile
+              mountPath: /opt/apache-jmeter-5.5/profile
+      volumes:
+        - name: jmeter-profile
+          configMap:
+            name: teastore-jmeter-browse-rps-homeonly-test
+
