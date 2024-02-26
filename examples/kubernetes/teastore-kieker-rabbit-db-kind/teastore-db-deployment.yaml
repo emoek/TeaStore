@@ -18,5 +18,10 @@ spec:
           image: descartesresearch/teastore-db
           ports:
             - containerPort: 3306
+          resources:
+            limits:
+              memory: 8000Mi
+              cpu: 4000m
       nodeSelector:
         kubernetes.io/hostname: cluster-nodes-worker3
+
