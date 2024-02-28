@@ -47,7 +47,7 @@
         <stringProp name="TargetLevel">${num_user}</stringProp>
         <stringProp name="RampUp">${ramp_up}</stringProp>
         <stringProp name="Steps">1</stringProp>
-        <stringProp name="Hold">900</stringProp>
+        <stringProp name="Hold">720</stringProp>
         <stringProp name="LogFilename"></stringProp>
         <stringProp name="Iterations"></stringProp>
         <stringProp name="Unit">S</stringProp>
@@ -65,10 +65,10 @@
               <stringProp name="51508">400</stringProp>
               <stringProp name="50547">300</stringProp>
             </collectionProp>
-            <collectionProp name="712539532">
+            <collectionProp name="687225676">
               <stringProp name="53430">600</stringProp>
               <stringProp name="53430">600</stringProp>
-              <stringProp name="50547">300</stringProp>
+              <stringProp name="48687">120</stringProp>
             </collectionProp>
           </collectionProp>
         </kg.apc.jmeter.timers.VariableThroughputTimer>
