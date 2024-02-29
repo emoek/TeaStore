@@ -1,0 +1,51 @@
+apiVersion: theodolite.rocks/v1beta1
+kind: benchmark
+metadata:
+  name: teastorev1
+spec:
+  waitForResourcesEnabled: true
+  sut:
+    resources:
+      - configMap:
+          name: teastore-kieker-deployment
+  loadGenerator:
+    resources:
+      - configMap:
+          name: teastore-jmeter-deployment-base-loop
+  resourceTypes:
+    - typeName: "Instances"
+      patchers:
+        - type: "ReplicaPatcher"
+          resource: "teastore-auth-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-image-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-persistence-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-recommender-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-webui-deployment.yaml"
+  loadTypes:
+    - typeName: NumUsers
+      patchers:
+        - type: "EnvVarPatcher"
+          resource: "jmeter-base-loop.yaml"
+          properties:
+            container: jmeter
+            variableName: num_user
+  slos:  
+    - sloType: "efficiency"
+      name: "energySource"
+      prometheusUrl: "http://prometheus-operated.theodolite-stu232544:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:9092/type8"
+        promQLQuery: "sum(irate(kepler_node_platform_joules_total[1m]))"
+        workloadQuery: "sum(raritanpdu_activepower_watt{label=~\"kube1-1|kube1-3|kube1-2|kube1-4|kube1-5\"})"   
+        promQLStepSeconds: 1
+        warmup: 0 #in seconds
+        queryAggregation: max
+        repetitionAggregation: median
+        operator: gte
+        threshold: 1
+

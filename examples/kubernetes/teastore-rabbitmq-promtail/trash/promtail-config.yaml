@@ -18,12 +18,14 @@ scrape_configs:
           __path__: /symlogs/sym-kieker-output.dat
 
     pipeline_stages:
-    - match:
-        selector: '{job="rabbitmq-logs"}'
-        stages:
-        - regex:
-            expression: '^\$0;(?P<time>[^;]+);'
+      - match:
+          selector: '{job="rabbitmq-logs"}'
+          stages:
+            - regex:
+                expression: '.\w+tools.descartes.teastore.webui.\w+'
+            - regex:
+                expression: '^\$0;(?P<time>[^;]+);'
+            - timestamp:
+                format: UnixNs
+                source: time
 
-        - timestamp:
-            format: Unix
-            source: time       

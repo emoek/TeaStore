@@ -19,4 +19,4 @@ spec:
           ports:
             - containerPort: 3306
       nodeSelector:
-        kubernetes.io/hostname: kube1-3
+        kubernetes.io/hostname: kube1-2

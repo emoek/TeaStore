@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: teastore-kieker-rabbitmq
-        image: emreoe/teastore-kieker-rabbitmq:2.7
+        image: emreoe/teastore-kieker-rabbitmq:latest
         imagePullPolicy: Always 
         ports:
         - containerPort: 5672

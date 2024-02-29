@@ -1,0 +1,98 @@
+{
+  "name" : "teastorev4",
+  "waitForResourcesEnabled" : true,
+  "resourceTypes" : [ {
+    "typeName" : "Instances",
+    "patchers" : [ {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : { }
+    } ]
+  } ],
+  "loadTypes" : [ {
+    "typeName" : "NumUsers",
+    "patchers" : [ {
+      "type" : "EnvVarPatcher",
+      "resource" : "jmeter-rps.yaml",
+      "properties" : {
+        "container" : "jmeter",
+        "variableName" : "num_user"
+      }
+    } ]
+  } ],
+  "slos" : [ {
+    "name" : "logs",
+    "sloType" : "collect",
+    "prometheusUrl" : "http://theodolite-loki.theodolite-stu217492:3100",
+    "properties" : {
+      "externalSloUrl" : "http://localhost:9092/type4",
+      "operator" : "gte",
+      "promQLQuery" : "{job=\"rabbitmq-logs\"}",
+      "promQLStepSeconds" : "1",
+      "queryAggregation" : "mean",
+      "repetitionAggregation" : "median",
+      "stages" : "idle",
+      "threshold" : "1",
+      "warmup" : "0"
+    },
+    "offset" : 0
+  }, {
+    "name" : "perfWorkload",
+    "sloType" : "efficiency",
+    "prometheusUrl" : "http://prometheus-operated.theodolite-stu232544:9090",
+    "properties" : {
+      "externalSloUrl" : "http://localhost:9092/type4",
+      "operator" : "gte",
+      "promQLQuery" : "sum(irate(kepler_container_cpu_instructions_total{container_name=\"teastore-webui\"}[1m]))",
+      "promQLStepSeconds" : "1",
+      "queryAggregation" : "mean",
+      "repetitionAggregation" : "median",
+      "threshold" : "1",
+      "warmup" : "0",
+      "workloadQuery" : "sum(irate(kepler_container_bpf_net_rx_irq_total{container_name=\"teastore-webui\"}[1m]))"
+    },
+    "offset" : 0
+  } ],
+  "kafkaConfig" : null,
+  "infrastructure" : {
+    "resources" : [ ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  },
+  "sut" : {
+    "resources" : [ {
+      "configMap" : {
+        "name" : "teastore-kieker-deployment",
+        "files" : null
+      }
+    } ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  },
+  "loadGenerator" : {
+    "resources" : [ {
+      "configMap" : {
+        "name" : "teastore-jmeter-deployment-rps",
+        "files" : null
+      }
+    } ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  }
+}
