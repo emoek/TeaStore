@@ -1,7 +1,7 @@
 apiVersion: theodolite.rocks/v1beta1
 kind: benchmark
 metadata:
-  name: teastorev7
+  name: teastorev8
 spec:
   waitForResourcesEnabled: true
   sut:
@@ -34,18 +34,18 @@ spec:
             container: jmeter
             variableName: num_user
   slos:  
-    - sloType: "efficiency"
-      name: "stageEfficiency"
+    - sloType: "generic"
+      name: "powerScalability"
       prometheusUrl: "http://prometheus-operated.theodolite-stu232544:9090"
       offset: 0
       properties:
-        externalSloUrl: "http://localhost:9092/type12"
+        externalSloUrl: "http://localhost:8082"
         promQLQuery: "sum(irate(kepler_container_joules_total{container_name=~\"teastore-webui|teastore-recommender|teastore-persistence|teastore-image|teastore-auth|teastore-db\"}[1m]))"
         promQLStepSeconds: 1
         warmup: 120  #in seconds
         queryAggregation: mean
         workloadAggregation: mean
         repetitionAggregation: median
-        operator: gte
-        threshold: 40
+        operator: lte
+        threshold: 315
 

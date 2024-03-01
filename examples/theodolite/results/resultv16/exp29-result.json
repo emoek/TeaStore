@@ -1,0 +1,10 @@
+{
+  "metric" : "DEMAND",
+  "experimentResults" : {
+    "(150, 1)" : false,
+    "(150, 2)" : false,
+    "(150, 4)" : false,
+    "(150, 8)" : false
+  },
+  "empty" : false
+}

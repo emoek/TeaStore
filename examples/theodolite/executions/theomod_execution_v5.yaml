@@ -2,12 +2,12 @@ apiVersion: theodolite.rocks/v1beta1
 
 kind: execution
 metadata:
-  name: teastorev5-ae3
+  name: teastorev5-ae4
 spec:
   benchmark: teastorev5
   load:
     loadType: "NumUsers"
-    loadValues: [1,2,3,4,5,6,7,8,9,10]
+    loadValues: [10,50,100,150,200,250,500]
   resources:
     resourceType: "Instances"
     resourceValues: [1]
@@ -28,6 +28,18 @@ spec:
         properties:
           variableName: "kubernetes.io/hostname"
       value: "kube1-3"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-registry-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-3"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-db-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-2"
     - patcher:
         type: "NodeSelectorPatcher"
         resource: "teastore-auth-deployment.yaml"

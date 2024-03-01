@@ -1,0 +1,82 @@
+{
+  "name" : "teastorev8",
+  "waitForResourcesEnabled" : true,
+  "resourceTypes" : [ {
+    "typeName" : "Instances",
+    "patchers" : [ {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : { }
+    } ]
+  } ],
+  "loadTypes" : [ {
+    "typeName" : "NumUsers",
+    "patchers" : [ {
+      "type" : "EnvVarPatcher",
+      "resource" : "jmeter-base-loop.yaml",
+      "properties" : {
+        "container" : "jmeter",
+        "variableName" : "num_user"
+      }
+    } ]
+  } ],
+  "slos" : [ {
+    "name" : "powerScalability",
+    "sloType" : "generic",
+    "prometheusUrl" : "http://prometheus-operated.theodolite-stu232544:9090",
+    "properties" : {
+      "externalSloUrl" : "http://localhost:8082",
+      "operator" : "lte",
+      "promQLQuery" : "sum(irate(kepler_container_joules_total{container_name=~\"teastore-webui|teastore-recommender|teastore-persistence|teastore-image|teastore-auth|teastore-db\"}[1m]))",
+      "promQLStepSeconds" : "1",
+      "queryAggregation" : "mean",
+      "repetitionAggregation" : "median",
+      "threshold" : "315",
+      "warmup" : "120",
+      "workloadAggregation" : "mean"
+    },
+    "offset" : 0
+  } ],
+  "kafkaConfig" : null,
+  "infrastructure" : {
+    "resources" : [ ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  },
+  "sut" : {
+    "resources" : [ {
+      "configMap" : {
+        "name" : "teastore-kieker-deployment",
+        "files" : null
+      }
+    } ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  },
+  "loadGenerator" : {
+    "resources" : [ {
+      "configMap" : {
+        "name" : "teastore-jmeter-deployment-base-loop",
+        "files" : null
+      }
+    } ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  }
+}

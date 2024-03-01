@@ -35,7 +35,7 @@ spec:
             variableName: num_user
   slos:  
     - sloType: "efficiency"
-      name: "stageEfficiency"
+      name: "StageEfficiency"
       prometheusUrl: "http://prometheus-operated.theodolite-stu232544:9090"
       offset: 0
       properties:
@@ -46,6 +46,6 @@ spec:
         queryAggregation: mean
         workloadAggregation: mean
         repetitionAggregation: median
-        operator: gte
+        operator: lte
         threshold: 40
 

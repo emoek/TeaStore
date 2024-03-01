@@ -2,20 +2,20 @@ apiVersion: theodolite.rocks/v1beta1
 
 kind: execution
 metadata:
-  name: teastorev6-aeall4
+  name: teastorev7-se
 spec:
-  benchmark: teastorev6
+  benchmark: teastorev7
   load:
     loadType: "NumUsers"
-    loadValues: [10,50,100,150,200,250,500]
+    loadValues: [150]
   resources:
     resourceType: "Instances"
-    resourceValues: [1]
+    resourceValues: [1,2,4,8]
   slos:
-    - name: "averageEfficiency"
+    - name: "stageEfficiency"
   execution:
-    metric: "capacity"
-    experimentType: ""
+    metric: "demand"
+    experimentType: "staged"
     strategy:
       name: "FullSearch"
     duration: 960  # in seconds
