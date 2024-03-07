@@ -1,0 +1,7 @@
+{
+  "metric" : "CAPACITY",
+  "experimentResults" : {
+    "(10, 1)" : true
+  },
+  "empty" : false
+}

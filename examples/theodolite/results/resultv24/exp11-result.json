@@ -1,0 +1,22 @@
+{
+  "metric" : "DEMAND",
+  "experimentResults" : {
+    "(1, 1)" : true,
+    "(1, 2)" : true,
+    "(1, 4)" : true,
+    "(1, 8)" : true,
+    "(4, 1)" : true,
+    "(4, 2)" : true,
+    "(4, 4)" : true,
+    "(4, 8)" : true,
+    "(8, 1)" : true,
+    "(8, 2)" : true,
+    "(8, 4)" : true,
+    "(8, 8)" : true,
+    "(16, 1)" : true,
+    "(16, 2)" : true,
+    "(16, 4)" : true,
+    "(16, 8)" : true
+  },
+  "empty" : false
+}
