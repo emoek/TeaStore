@@ -1,0 +1,233 @@
+{
+  "name" : "teastorev19",
+  "waitForResourcesEnabled" : true,
+  "resourceTypes" : [ {
+    "typeName" : "VerticalResources",
+    "patchers" : [ {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-persistence",
+        "format" : "m",
+        "limitedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-persistence",
+        "factor" : "2",
+        "format" : "Mi",
+        "limitedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-auth",
+        "format" : "m",
+        "limitedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-auth",
+        "factor" : "2",
+        "format" : "Mi",
+        "limitedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-image",
+        "format" : "m",
+        "limitedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-image",
+        "factor" : "2",
+        "format" : "Mi",
+        "limitedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-recommender",
+        "format" : "m",
+        "limitedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-recommender",
+        "factor" : "2",
+        "format" : "Mi",
+        "limitedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-webui",
+        "format" : "m",
+        "limitedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceLimitPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-webui",
+        "factor" : "2",
+        "format" : "Mi",
+        "limitedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-persistence",
+        "format" : "m",
+        "requestedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-persistence",
+        "factor" : "2",
+        "format" : "Mi",
+        "requestedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-auth",
+        "format" : "m",
+        "requestedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-auth",
+        "factor" : "2",
+        "format" : "Mi",
+        "requestedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-image",
+        "format" : "m",
+        "requestedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-image",
+        "factor" : "2",
+        "format" : "Mi",
+        "requestedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-recommender",
+        "format" : "m",
+        "requestedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-recommender",
+        "factor" : "2",
+        "format" : "Mi",
+        "requestedResource" : "memory"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-webui",
+        "format" : "m",
+        "requestedResource" : "cpu"
+      }
+    }, {
+      "type" : "ResourceRequestPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : {
+        "container" : "teastore-webui",
+        "factor" : "2",
+        "format" : "Mi",
+        "requestedResource" : "memory"
+      }
+    } ]
+  } ],
+  "loadTypes" : [ {
+    "typeName" : "NumUsers",
+    "patchers" : [ {
+      "type" : "EnvVarPatcher",
+      "resource" : "jmeter-base-loop.yaml",
+      "properties" : {
+        "container" : "jmeter",
+        "variableName" : "num_user"
+      }
+    } ]
+  } ],
+  "slos" : [ {
+    "name" : "erScalability",
+    "sloType" : "efficiency",
+    "prometheusUrl" : "http://prometheus-operated.theodolite-stu232544:9090",
+    "properties" : {
+      "externalSloUrl" : "http://localhost:9092/type14/1",
+      "operator" : "gte",
+      "promQLQuery" : "sum(irate(kepler_container_package_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db\"}[1m])) + sum(irate(kepler_container_dram_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db\"}[1m]))",
+      "promQLStepSeconds" : "1",
+      "queryAggregation" : "mean",
+      "repetitionAggregation" : "median",
+      "threshold" : "2",
+      "warmup" : "120",
+      "workloadAggregation" : "mean",
+      "workloadQuery" : "sum(irate(kepler_container_cpu_instructions_total{container_name=~\"teastore-webui|teastore-recommender|teastore-persistence|teastore-image|teastore-auth|teastore-db\"}[1m])) / 10000000"
+    },
+    "offset" : 0
+  } ],
+  "kafkaConfig" : null,
+  "infrastructure" : {
+    "resources" : [ ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  },
+  "sut" : {
+    "resources" : [ {
+      "configMap" : {
+        "name" : "teastore-kieker-deployment-res",
+        "files" : null
+      }
+    } ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  },
+  "loadGenerator" : {
+    "resources" : [ {
+      "configMap" : {
+        "name" : "teastore-jmeter-deployment-base-loop",
+        "files" : null
+      }
+    } ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  }
+}

@@ -1,0 +1,52 @@
+apiVersion: theodolite.rocks/v1beta1
+kind: benchmark
+metadata:
+  name: teastorev23
+spec:
+  waitForResourcesEnabled: true
+  sut:
+    resources:
+      - configMap:
+          name: teastore-kieker-deployment-res
+  loadGenerator:
+    resources:
+      - configMap:
+          name: teastore-jmeter-deployment-base-loop
+  resourceTypes:
+    - typeName: "Instances"
+      patchers:
+        - type: "ReplicaPatcher"
+          resource: "teastore-auth-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-image-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-persistence-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-recommender-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-webui-deployment.yaml"
+  loadTypes:
+    - typeName: NumUsers
+      patchers:
+        - type: "EnvVarPatcher"
+          resource: "jmeter-base-loop.yaml"
+          properties:
+            container: jmeter
+            variableName: num_user
+  slos:
+    - sloType: "efficiency"
+      name: "averageEfficiency"
+      prometheusUrl: "http://prometheus-operated.theodolite-stu232544:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:9092/type8"
+        promQLQuery: "sum(irate(kepler_node_platform_joules_total{instance=\"kube1-2\"}[1m]))"
+        workloadQuery: "sum(irate(kepler_container_cpu_instructions_total{container_name=~\"teastore-webui|teastore-recommender|teastore-persistence|teastore-image|teastore-auth|teastore-db\"}[1m])) / 10000000"
+        promQLStepSeconds: 1
+        warmup: 120  #in seconds
+        queryAggregation: mean
+        workloadAggregation: mean
+        repetitionAggregation: median
+        operator: gte
+        threshold: 3
+

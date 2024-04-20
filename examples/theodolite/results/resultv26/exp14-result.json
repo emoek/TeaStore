@@ -1,0 +1,15 @@
+{
+  "metric" : "CAPACITY",
+  "experimentResults" : {
+    "(1, 1)" : false,
+    "(2, 1)" : false,
+    "(4, 1)" : false,
+    "(6, 1)" : false,
+    "(8, 1)" : false,
+    "(12, 1)" : false,
+    "(16, 1)" : false,
+    "(32, 1)" : false,
+    "(64, 1)" : false
+  },
+  "empty" : false
+}

@@ -19,6 +19,9 @@ spec:
           ports:
             - containerPort: 3306
           resources:
+            requests:
+              memory: 4000Mi
+              cpu: 500m
             limits:
-              memory: 16000Mi
-              cpu: 4000m
+              memory: 4000Mi
+              cpu: 500m

@@ -1,0 +1,22 @@
+{
+  "metric" : "DEMAND",
+  "experimentResults" : {
+    "(1, 1000)" : false,
+    "(1, 2000)" : true,
+    "(1, 3000)" : false,
+    "(1, 4000)" : false,
+    "(4, 1000)" : true,
+    "(4, 2000)" : false,
+    "(4, 3000)" : true,
+    "(4, 4000)" : true,
+    "(8, 1000)" : false,
+    "(8, 2000)" : true,
+    "(8, 3000)" : true,
+    "(8, 4000)" : true,
+    "(16, 1000)" : true,
+    "(16, 2000)" : false,
+    "(16, 3000)" : true,
+    "(16, 4000)" : true
+  },
+  "empty" : false
+}

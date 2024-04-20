@@ -34,18 +34,18 @@ spec:
             container: jmeter
             variableName: NUM_USERS
   slos:
-    - sloType: "collect"
-      name: "uiCPU"
-      prometheusUrl: "http://theodolite-loki.theodolite-stu217492:3100"
-      offset: 0
-      properties:
-        externalSloUrl: "http://localhost:8082"
-        promQLQuery: "{job=\"rabbitmq-logs\"} |= \"tools.descartes.teastore.webui\""
-        promQLStepSeconds: 1
-        stages: load  
+    #    - sloType: "collect"
+    #  name: "uiCPU"
+    #  prometheusUrl: "http://theodolite-loki:3100"
+    #  offset: 0
+    #  properties:
+    #    externalSloUrl: "http://localhost:8082"
+    #    promQLQuery: "{job=\"rabbitmq-logs\"} |= \"tools.descartes.teastore.webui\""
+    #    promQLStepSeconds: 1
+    #    stages: load  
     - sloType: "efficiency"
       name: "uiCPU"
-      prometheusUrl: "http://prometheus-operated.theodolite-stu232544:9090"
+      prometheusUrl: "http://prometheus-operated:9090"
       offset: 0
       properties:
         externalSloUrl: "http://localhost:9092/type8"

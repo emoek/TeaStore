@@ -1,0 +1,404 @@
+{
+  "executionId" : 2,
+  "name" : "teastorev28-se",
+  "benchmark" : "teastorev28",
+  "load" : {
+    "loadType" : "NumUsers",
+    "loadValues" : [ 8 ]
+  },
+  "resources" : {
+    "resourceType" : "Instances",
+    "resourceValues" : [ 1, 2, 4, 8 ]
+  },
+  "slos" : [ {
+    "name" : "stagedEfficiencyNode",
+    "properties" : { }
+  }, {
+    "name" : "stagedEfficiency",
+    "properties" : { }
+  } ],
+  "execution" : {
+    "metric" : "demand",
+    "strategy" : {
+      "name" : "FullSearch",
+      "restrictions" : [ ],
+      "guessStrategy" : "",
+      "searchStrategy" : ""
+    },
+    "experimentType" : "staged",
+    "loadGenerationDelay" : 60,
+    "afterTeardownDelay" : 5,
+    "repetitions" : 1,
+    "duration" : 900
+  },
+  "configOverrides" : [ {
+    "patcher" : {
+      "type" : "NodeSelectorPatcher",
+      "resource" : "jmeter-base-loop.yaml",
+      "properties" : {
+        "variableName" : "kubernetes.io/hostname"
+      }
+    },
+    "value" : "kube1-3"
+  }, {
+    "patcher" : {
+      "type" : "NodeSelectorPatcher",
+      "resource" : "teastore-registry-deployment.yaml",
+      "properties" : {
+        "variableName" : "kubernetes.io/hostname"
+      }
+    },
+    "value" : "kube1-3"
+  }, {
+    "patcher" : {
+      "type" : "NodeSelectorPatcher",
+      "resource" : "teastore-db-deployment.yaml",
+      "properties" : {
+        "variableName" : "kubernetes.io/hostname"
+      }
+    },
+    "value" : "kube1-2"
+  }, {
+    "patcher" : {
+      "type" : "NodeSelectorPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : {
+        "variableName" : "kubernetes.io/hostname"
+      }
+    },
+    "value" : "kube1-2"
+  }, {
+    "patcher" : {
+      "type" : "NodeSelectorPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : {
+        "variableName" : "kubernetes.io/hostname"
+      }
+    },
+    "value" : "kube1-2"
+  }, {
+    "patcher" : {
+      "type" : "NodeSelectorPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : {
+        "variableName" : "kubernetes.io/hostname"
+      }
+    },
+    "value" : "kube1-2"
+  }, {
+    "patcher" : {
+      "type" : "NodeSelectorPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : {
+        "variableName" : "kubernetes.io/hostname"
+      }
+    },
+    "value" : "kube1-2"
+  }, {
+    "patcher" : {
+      "type" : "NodeSelectorPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : {
+        "variableName" : "kubernetes.io/hostname"
+      }
+    },
+    "value" : "kube1-2"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-db-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-db-service.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-registry-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-registry-service.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-webui-nodeport.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "jmeter-base-loop.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-execution"
+      }
+    },
+    "value" : "teastorev28-se"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-db-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-db-service.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-registry-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-registry-service.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-webui-nodeport.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "jmeter-base-loop.yaml",
+      "properties" : {
+        "variableName" : "deployed-for-benchmark"
+      }
+    },
+    "value" : "teastorev28"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-db-deployment.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-db-service.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-registry-deployment.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-registry-service.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "teastore-webui-nodeport.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  }, {
+    "patcher" : {
+      "type" : "LabelPatcher",
+      "resource" : "jmeter-base-loop.yaml",
+      "properties" : {
+        "variableName" : "app.kubernetes.io/created-by"
+      }
+    },
+    "value" : "theodolite"
+  } ]
+}

@@ -7,10 +7,10 @@ spec:
   benchmark: teastorev52
   load:
     loadType: "NumUsers"
-    loadValues: [100]
+    loadValues: [1,10,50,5]
   resources:
     resourceType: "Instances"
-    resourceValues: [4]
+    resourceValues: [1,3,4,2]
   slos:
     - name: "uiCPU"
     - name: "uiCPU"
@@ -27,28 +27,28 @@ spec:
         resource: "teastore-auth-deployment.yaml"
         properties:
           variableName: "kubernetes.io/hostname"
-      value: "kube1-2"
+      value: "kind-worker"
     - patcher:
         type: "NodeSelectorPatcher"
         resource: "teastore-image-deployment.yaml"
         properties:
           variableName: "kubernetes.io/hostname"
-      value: "kube1-2"
+      value: "kind-worker"
     - patcher:
         type: "NodeSelectorPatcher"
         resource: "teastore-recommender-deployment.yaml"
         properties:
           variableName: "kubernetes.io/hostname"
-      value: "kube1-2"
+      value: "kind-worker2"
     - patcher:
         type: "NodeSelectorPatcher"
         resource: "teastore-persistence-deployment.yaml"
         properties:
           variableName: "kubernetes.io/hostname"
-      value: "kube1-2"
+      value: "kind-worker2"
     - patcher:
         type: "NodeSelectorPatcher"
         resource: "teastore-webui-deployment.yaml"
         properties:
           variableName: "kubernetes.io/hostname"
-      value: "kube1-2"
+      value: "kind-worker2"

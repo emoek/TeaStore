@@ -22,4 +22,4 @@ spec:
             - name: USE_POD_IP
               value: "true"
       nodeSelector:
-        kubernetes.io/hostname: cluster-nodes-worker3
+        kubernetes.io/hostname: kind-worker3

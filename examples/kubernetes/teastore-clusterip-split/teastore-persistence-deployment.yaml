@@ -41,6 +41,9 @@ spec:
               port: 8080
               scheme: HTTP
           resources:
+            requests:
+              memory: 2000Mi
+              cpu: 500m
             limits:
-              memory: 4000Mi
-              cpu: 2000m
+              memory: 2000Mi
+              cpu: 500m
