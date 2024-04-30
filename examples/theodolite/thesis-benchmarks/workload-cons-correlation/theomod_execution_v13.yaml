@@ -1,0 +1,71 @@
+apiVersion: theodolite.rocks/v1beta1
+
+kind: execution
+metadata:
+  name: teastorev13-colcor
+spec:
+  benchmark: teastorev13
+  load:
+    loadType: "NumUsers"
+    loadValues: [10]
+  resources:
+    resourceType: "Instances"
+    resourceValues: [1]
+  slos:
+    - name: "averageEfficiency"
+  execution:
+    metric: "capacity"
+    strategy:
+      name: "FullSearch"
+    duration: 1200  # in seconds
+    loadGenerationDelay: 60  
+    repetitions: 3
+  configOverrides: 
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "jmeter-base-loop.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-3"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-registry-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-3"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-db-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-2"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-auth-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-2"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-image-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-2"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-recommender-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-2"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-persistence-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-2"
+    - patcher:
+        type: "NodeSelectorPatcher"
+        resource: "teastore-webui-deployment.yaml"
+        properties:
+          variableName: "kubernetes.io/hostname"
+      value: "kube1-2"

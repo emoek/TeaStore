@@ -1,0 +1,82 @@
+apiVersion: theodolite.rocks/v1beta1
+kind: benchmark
+metadata:
+  name: teastorev39
+spec:
+  waitForResourcesEnabled: true
+  sut:
+    resources:
+      - configMap:
+          name: teastore-kieker-deployment-res
+  loadGenerator:
+    resources:
+      - configMap:
+          name: teastore-jmeter-deployment-base-loop
+  resourceTypes:
+    - typeName: "Instances"
+      patchers:
+        - type: "ReplicaPatcher"
+          resource: "teastore-auth-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-image-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-persistence-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-recommender-deployment.yaml"
+        - type: "ReplicaPatcher"
+          resource: "teastore-webui-deployment.yaml"
+  loadTypes:
+    - typeName: NumUsers
+      patchers:
+        - type: "EnvVarPatcher"
+          resource: "jmeter-base-loop.yaml"
+          properties:
+            container: jmeter
+            variableName: num_user
+  experimentType: ""
+  slos:
+    - sloType: "efficiency"
+      name: "averageEfficiencyNode"
+      prometheusUrl: "http://prometheus-operated.theodolite-stu232544:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:9092/type14/1"
+        promQLQuery: "sum(irate(kepler_container_package_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db|system_processes\"}[1m])) + sum(irate(kepler_container_dram_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db|system_processes\"}[1m]))"
+        workloadQuery: "sum(irate(kepler_container_cpu_instructions_total{container_name=~\"teastore-webui|teastore-recommender|teastore-persistence|teastore-image|teastore-auth|teastore-db\"}[1m])) / 1000000"
+        promQLStepSeconds: 1
+        warmup: 120  #in seconds
+        queryAggregation: mean
+        workloadAggregation: mean
+        repetitionAggregation: median
+        operator: gte
+        threshold: 3
+    - sloType: "efficiency"
+      name: "averageEfficiency"
+      prometheusUrl: "http://prometheus-operated.theodolite-stu232544:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:9092/type14/1"
+        promQLQuery: "sum(irate(kepler_container_package_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db\"}[1m])) + sum(irate(kepler_container_dram_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db\"}[1m]))"
+        workloadQuery: "sum(irate(kepler_container_cpu_instructions_total{container_name=~\"teastore-webui|teastore-recommender|teastore-persistence|teastore-image|teastore-auth|teastore-db\"}[1m])) / 10000000"
+        promQLStepSeconds: 1
+        warmup: 120  #in seconds
+        queryAggregation: mean
+        workloadAggregation: mean
+        repetitionAggregation: median
+        operator: gte
+        threshold: 3
+    - sloType: "collect"
+      name: "collectSUT"
+      prometheusUrl: "http://prometheus-operated.theodolite-stu232544:9090"
+      offset: 0
+      properties:
+        externalSloUrl: "http://localhost:9092/type8"
+        promQLQuery: "sum(irate(kepler_container_package_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db|system_processes\"}[1m])) + sum(irate(kepler_container_dram_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db|system_processes\"}[1m]))"
+        promQLStepSeconds: 1
+        warmup: 120  #in seconds
+        queryAggregation: mean
+        workloadAggregation: mean
+        repetitionAggregation: median
+        operator: gte
+        threshold: 3
+

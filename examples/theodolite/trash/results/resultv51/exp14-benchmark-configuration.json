@@ -1,0 +1,98 @@
+{
+  "name" : "teastorev28",
+  "waitForResourcesEnabled" : true,
+  "resourceTypes" : [ {
+    "typeName" : "Instances",
+    "patchers" : [ {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-auth-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-image-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-persistence-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-recommender-deployment.yaml",
+      "properties" : { }
+    }, {
+      "type" : "ReplicaPatcher",
+      "resource" : "teastore-webui-deployment.yaml",
+      "properties" : { }
+    } ]
+  } ],
+  "loadTypes" : [ {
+    "typeName" : "NumUsers",
+    "patchers" : [ {
+      "type" : "EnvVarPatcher",
+      "resource" : "jmeter-base-loop.yaml",
+      "properties" : {
+        "container" : "jmeter",
+        "variableName" : "num_user"
+      }
+    } ]
+  } ],
+  "slos" : [ {
+    "name" : "stagedEfficiencyNode",
+    "sloType" : "efficiency",
+    "prometheusUrl" : "http://prometheus-operated.theodolite-stu232544:9090",
+    "properties" : {
+      "externalSloUrl" : "http://localhost:9092/type11",
+      "operator" : "gte",
+      "promQLQuery" : "sum(irate(kepler_node_platform_joules_total{instance=\"kube1-2\"}[1m]))",
+      "promQLStepSeconds" : "1",
+      "queryAggregation" : "mean",
+      "repetitionAggregation" : "median",
+      "threshold" : "3",
+      "warmup" : "120",
+      "workloadAggregation" : "mean"
+    },
+    "offset" : 0
+  }, {
+    "name" : "stagedEfficiency",
+    "sloType" : "efficiency",
+    "prometheusUrl" : "http://prometheus-operated.theodolite-stu232544:9090",
+    "properties" : {
+      "externalSloUrl" : "http://localhost:9092/type12",
+      "operator" : "gte",
+      "promQLQuery" : "sum(irate(kepler_container_package_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db\"}[1m])) + sum(irate(kepler_container_dram_joules_total{container_name=~\"teastore-webui|teastore-auth|teastore-image|teastore-persistence|teastore-recommender|teastore-db\"}[1m]))",
+      "promQLStepSeconds" : "1",
+      "queryAggregation" : "mean",
+      "repetitionAggregation" : "median",
+      "threshold" : "3",
+      "warmup" : "120",
+      "workloadAggregation" : "mean"
+    },
+    "offset" : 0
+  } ],
+  "kafkaConfig" : null,
+  "infrastructure" : {
+    "resources" : [ ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  },
+  "sut" : {
+    "resources" : [ {
+      "configMap" : {
+        "name" : "teastore-kieker-deployment-res",
+        "files" : null
+      }
+    } ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  },
+  "loadGenerator" : {
+    "resources" : [ {
+      "configMap" : {
+        "name" : "teastore-jmeter-deployment-base-loop",
+        "files" : null
+      }
+    } ],
+    "beforeActions" : [ ],
+    "afterActions" : [ ]
+  }
+}
