@@ -61,9 +61,18 @@ kubectl create configmap teastore-deployment --from-file=../../kubernetes/teasto
 
 ## Create ConfigMap for Load Profile
 
+### Base Loop Load Profile
+
 ```sh
-kubectl create configmap teastore-jmeter-browse --from-file=../../jmeter/teastore_browse_nogui.jmx
-kubectl create configmap teastore-jmeter-deployment --from-file=../jmeter.yaml
+kubectl create configmap teastore-jmeter-browse-base --from-file=../../jmeter/teastore_browse_base_loop.jmx
+kubectl create configmap teastore-jmeter-deployment-base-loop --from-file=../jmeter-base-loop.yaml
+```
+
+### RPS Load Profile
+
+```sh
+kubectl create configmap teastore-jmeter-browse-rps --from-file=../../jmeter/teastore_browse_base_loop.jmx
+kubectl create configmap teastore-jmeter-deployment-rps --from-file=../jmeter-base-rps.yaml
 ```
 
 ## Setup Benchmark
